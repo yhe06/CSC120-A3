@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 class Conversation implements ConversationRequirements {
   // Attributes 
-  ArrayList<String> Transcript; //import arraylist, tutor suggestion because ArrayList, you don't have to initialize a length
+  ArrayList<String> Transcript; 
 
   /**
    * Constructor 
@@ -41,13 +41,14 @@ class Conversation implements ConversationRequirements {
         Transcript.add(greeting);
         
         System.out.println(greeting);
-        String response = input.nextLine();
+        String userResponse = input.nextLine();
 
         while(round!=0){
-          response = input.nextLine();
-          Transcript.add(response);
+          userResponse = input.nextLine();
 
-          String chatbotResponse = this.respond(response);
+          Transcript.add(userResponse);
+          String chatbotResponse = this.respond(userResponse);
+
           System.out.println(chatbotResponse); //not sure why this is working,,, respond isn't a created attribute yet so why can I call it?
           Transcript.add(chatbotResponse);
           round -= 1;
@@ -63,7 +64,8 @@ class Conversation implements ConversationRequirements {
   public void printTranscript() {
     System.out.println("");
     System.out.println("TRANSCRIPT:");
-    for (int i = 0;i<this.Transcript.size();i++) { //Java loop syntax 
+    //Java loop syntax 
+    for (int i = 0;i<this.Transcript.size();i++) {
       System.out.println(this.Transcript.get(i));
     }
 
@@ -89,12 +91,20 @@ class Conversation implements ConversationRequirements {
     String lowercasedInputString = inputString.toLowerCase();
 
     //splitting the string into elements in an array to analyze them individually.
-    String[] splitStrings = lowercasedInputString.split(" ");
+    //split the lowercasedInputStrings and input it in a new array list
 
-    if (inputString.contains("i")||inputString.contains("you")||inputString.contains("am")||inputString.contains("my")||inputString.contains("your")||inputString.contains("are")){
+    ArrayList<String> splitStrings = new ArrayList<>();
 
-      for (int i = 0; i < splitStrings.length; i++) {
-        if (splitStrings[i].equals("i")) {
+    for (String strings : lowercasedInputString.split(" ")) {
+        splitStrings.add(strings);
+}
+
+    if (splitStrings.contains("i")||splitStrings.contains("you")||splitStrings.contains("am")||splitStrings.contains("my")
+      ||splitStrings.contains("your")||splitStrings.contains("are")){
+
+      for (int i = 0; i < splitStrings.size(); i++) {
+        
+        if (splitStrings.get(i).equals("i")) {
           //in case the response starts with i, an appropriately capitalizes "you" should appear
 
           if (i == 0) { 
@@ -103,36 +113,44 @@ class Conversation implements ConversationRequirements {
             returnSplitString.add("you");
           }
 
-      } else if (splitStrings[i].equals("you")) {
+      } else if (splitStrings.get(i).equals("you")) {
         returnSplitString.add("I");
           
-      } else if (splitStrings[i].equals("am")) {
+      } else if (splitStrings.get(i).equals("am")) {
         returnSplitString.add("are");   
 
-      } else if (splitStrings[i].equals("my")) {
+      } else if (splitStrings.get(i).equals("my")) {
         returnSplitString.add("your"); 
 
-      } else if (splitStrings[i].equals("your")) {
+      } else if (splitStrings.get(i).equals("your")) {
          returnSplitString.add("my");  
 
-      } else if (splitStrings[i].equals("are")) {
+      } else if (splitStrings.get(i).equals("are")) {
         returnSplitString.add("am");
           
     } else {
-      returnSplitString.add(splitStrings[i]);
+      returnSplitString.add(splitStrings.get(i));
     } 
 
     //joins the elements in the array, and adds a question mark at the end
+    //need work to make capitalization correct 
+
       returnString = String.join(" ", returnSplitString);
+
+      //automatically returns the first letter as uppercase, disregarding what the user inputted. Look over more.
+      returnString = Character.toUpperCase(returnString.charAt(0)) + returnString.substring(1);
+
       returnString = returnString + "?";
 
     }
 
     } else {
       //canned responses,
-      String[] cannedResponses = {"Hmm.", "I see", "Mmhm", "Yeah?", "Ok"};
+      String[] cannedResponses = {"Hmm.", "I see", "Mmhm", "Yeah?", "Ok", "Cool"};
 
-      int index = random.nextInt(cannedResponses.length); // index is randomized, so the responses is randomized...
+      // index is randomized, so the responses is randomized...
+      int index = random.nextInt(cannedResponses.length);
+      
       String cannedReturnString = cannedResponses[index];
       return cannedReturnString;
     }
