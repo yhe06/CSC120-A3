@@ -38,7 +38,7 @@ ___**YES**__ 1 pt: Prints transcript when terminating
 
 ## Kudos:
 
-__**NO**___ (Kudos!) Handles mirror words with punctuation
+__**PART**___ (Kudos!) Handles mirror words with punctuation
 
 __**PART**___ (Kudos!) Generates output with correct punctuation & capitalization
 

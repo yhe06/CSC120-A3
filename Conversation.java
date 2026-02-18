@@ -36,6 +36,7 @@ class Conversation implements ConversationRequirements {
         System.out.println("How many rounds?");
         int round = input.nextInt();
 
+        //Initialize greeting and exit texts 
         String greeting = "Hi there! What's on your mind?";
         String exit = "See ya!";
         Transcript.add(greeting);
@@ -54,7 +55,7 @@ class Conversation implements ConversationRequirements {
           round -= 1;
         }
 
-        System.out.println(exit); //add this later to transcript
+        System.out.println(exit);
         Transcript.add(exit);
   }
 
@@ -100,7 +101,7 @@ class Conversation implements ConversationRequirements {
 }
 
     if (splitStrings.contains("i")||splitStrings.contains("you")||splitStrings.contains("am")||splitStrings.contains("my")
-      ||splitStrings.contains("your")||splitStrings.contains("are")){
+      ||splitStrings.contains("your")||splitStrings.contains("are")||splitStrings.contains("i'm")||splitStrings.contains("you're")){
 
       for (int i = 0; i < splitStrings.size(); i++) {
         
@@ -127,7 +128,13 @@ class Conversation implements ConversationRequirements {
 
       } else if (splitStrings.get(i).equals("are")) {
         returnSplitString.add("am");
-          
+
+      } else if (splitStrings.get(i).equals("i'm")) {
+        returnSplitString.add("you're");   
+
+      } else if (splitStrings.get(i).equals("you're")) {
+        returnSplitString.add("i'm");             
+
     } else {
       returnSplitString.add(splitStrings.get(i));
     } 
@@ -140,13 +147,18 @@ class Conversation implements ConversationRequirements {
       //automatically returns the first letter as uppercase, disregarding what the user inputted. Look over more.
       returnString = Character.toUpperCase(returnString.charAt(0)) + returnString.substring(1);
 
+      //replaces period with question mark.
+      if (returnString.contains(".")){
+          returnString = returnString.replace(".", "?");
+      }
+
       returnString = returnString + "?";
 
     }
 
     } else {
       //canned responses,
-      String[] cannedResponses = {"Hmm.", "I see", "Mmhm", "Yeah?", "Ok", "Cool"};
+      String[] cannedResponses = {"Hmm.", "I see.", "Mmhm.", "Yeah?", "Ok.", "Cool."};
 
       // index is randomized, so the responses is randomized...
       int index = random.nextInt(cannedResponses.length);
